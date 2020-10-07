@@ -19,7 +19,7 @@ def get_fasta_array(id):
    fasta_sequence.pop()
    return (fasta_sequence)
 
-def get_organismo(id):
+def get_organism(id):
    nombres = list()
    info  = pypdb.get_all_info(id)
    info_nombre = info.get('polymer')
@@ -38,72 +38,64 @@ def get_two_ids_dont_repeat_organism(list_of_ids):
    random2 = get_random_id_from_listOfIds(list_of_ids)
    #print (random1)
    #print (random2)
-   #print(get_organismo(random1))
-   #print(get_organismo(random2))
-   if (get_organismo(random1) != get_organismo(random2)):
+   #print(get_organism(random1))
+   #print(get_organism(random2))
+   if (get_organism(random1) != get_organism(random2)):
       lista = [random1,random2]
       return lista
    else:
       return get_two_ids_dont_repeat_organism(list_of_ids)
    
+def query_molecule_name(name):
+   url = 'http://www.rcsb.org/pdb/rest/search'
 
-url = 'http://www.rcsb.org/pdb/rest/search'
+   queryText = """<?xml version="1.0" encoding="UTF-8"?>
 
-queryText = """
+   <orgPdbQuery>
 
-<?xml version="1.0" encoding="UTF-8"?>
+   <version>B0907</version>
 
-<orgPdbQuery>
+   <queryType>org.pdb.query.simple.MoleculeNameQuery</queryType>
 
-<version>B0907</version>
+   <description>Molecule Name Search : Molecule Name="""+name+"""</description>
 
+   <macromoleculeName>"""+name+"""</macromoleculeName>
 
-<queryType>org.pdb.query.simple.MoleculeNameQuery</queryType>
+   </orgPdbQuery>
 
-<description>Molecule Name Search : Molecule Name=myoglobin</description>
+   """
 
-<macromoleculeName>myoglobin</macromoleculeName>
+   print("")
+   print("querying PDB...\n")
 
-
-</orgPdbQuery>
-
-
-"""
-
-print("")
-print("querying PDB...\n")
-
-#semantica urllib.request en lugar de urllib2
-dataqt = queryText.encode('utf-8')
-req = urllib.request.Request(url,data=dataqt)
-f = urllib.request.urlopen(req)
+   #semantica urllib.request en lugar de urllib2
+   dataqt = queryText.encode('utf-8')
+   req = urllib.request.Request(url,data=dataqt)
+   f = urllib.request.urlopen(req)
 
 
-result = f.read().decode("utf-8") 
-result = result.split()
+   result = f.read().decode("utf-8")
+   result = result.split()
+   
 
-ids = get_two_ids_dont_repeat_organism(result)
-fasta1 = get_fasta_array(ids[0]) 
-fasta2 = get_fasta_array(ids[1])
-print(fasta1)
-print(fasta2)
+   if result:
+      print(("Found number of PDB entries:", result.count('\n')))
+   else:
+      print("Failed to retrieve results")
 
-#for x in result:
-   #print (x[0:4])
-   #print(get_organismo(x[0:4]))
-
+   #print(result)
+   return result
 
 
-if result:
-   print(("Found number of PDB entries:", result.count('\n')))
-else:
-   print("Failed to retrieve results")
+#ids = get_two_ids_dont_repeat_organism(query_molecule_name('myoglobin'))
+#fasta1 = get_fasta_array(ids[0]) 
+#fasta2 = get_fasta_array(ids[1])
+#print(fasta1)
+#print(fasta2)
 
-url2 = "https://www.rcsb.org/fasta/entry/2C0K"
-
-
-
-
+   #for x in result:
+      #print (x[0:4])
+      #print(get_organism(x[0:4]))
 #response = urllib.request.urlopen(url)
 #fasta = response.read().decode("utf-8", "ignore")
 #print (fasta)
