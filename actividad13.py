@@ -79,7 +79,7 @@ def query_molecule_name(name):
    
 
    if result:
-      print(("Found number of PDB entries:", result.count('\n')))
+      print(("Found number of PDB entries:", len(result)))
    else:
       print("Failed to retrieve results")
 
