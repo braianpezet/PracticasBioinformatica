@@ -27,7 +27,8 @@ def get_organism(id):
    if(isinstance(info_nombre,list)):
       for x in range (0,len(info_nombre)):
          nombres.append(info.get('polymer')[x].get('Taxonomy').get('@name'))
-      return nombres
+         nombres = list(dict.fromkeys(nombres))
+      return ' '.join(nombres)
    return info_nombre.get('Taxonomy').get('@name')
 
 def get_random_id_from_listOfIds(list_of_ids):
@@ -87,7 +88,7 @@ def query_molecule_name(name):
    return result
 
 
-#ids = get_two_ids_dont_repeat_organism(query_molecule_name('myoglobin'))
+#ids = get_two_ids_dont_repeat_organism(query_molecule_name('insulin'))
 #fasta1 = get_fasta_array(ids[0]) 
 #fasta2 = get_fasta_array(ids[1])
 #print(fasta1)
