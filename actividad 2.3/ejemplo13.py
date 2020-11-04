@@ -71,12 +71,13 @@ def main():
 
 				# Print the character at the given row and
 				# column
-				if best_grids[grid][row][col] == 'H':
-					print Back.GREEN + best_grids[grid][row][col],
-				if best_grids[grid][row][col] == 'P':
-					print Back.BLUE + best_grids[grid][row][col],
+				if best_grids[grid][row][col][0] == 'H':
+					print Back.GREEN + best_grids[grid][row][col][1],
+				if best_grids[grid][row][col][0] == 'P':
+					print Back.BLUE + best_grids[grid][row][col][1],
 				if best_grids[grid][row][col] == '*': 
 					print Back.BLACK + best_grids[grid][row][col],
+				#print Back.BLACK + best_grids[grid][row][col],
 			# Print a line in between the rows
 			print Back.BLACK + ''
 #---Fold function definition---#
@@ -104,7 +105,7 @@ def fold( protein, max_num_H_bonds, current_element_idx, current_grid, current_r
 				new_grid[row].append(current_grid[row][col])
 
 		# Place the protein in the new grid
-		new_grid[current_row][current_col] = protein[current_element_idx]
+		new_grid[current_row][current_col] = protein[current_element_idx] + str(current_element_idx)
 	   	# Check for H-H bonds in the current fold
 		if protein[current_element_idx]=='H':
 
