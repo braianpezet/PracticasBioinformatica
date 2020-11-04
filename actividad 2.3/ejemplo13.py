@@ -22,6 +22,7 @@
 #
 
 import sys
+from colorama import Fore, Back, Style
 #---Global variable initialization---#
 EMPTY = ' ' # This represents an empty character in the grid
 best_grids = [] # This is a list of the grids that contain the best foldings
@@ -70,10 +71,14 @@ def main():
 
 				# Print the character at the given row and
 				# column
-				print best_grids[grid][row][col],
-
+				if best_grids[grid][row][col] == 'H':
+					print Back.GREEN + best_grids[grid][row][col],
+				if best_grids[grid][row][col] == 'P':
+					print Back.BLUE + best_grids[grid][row][col],
+				if best_grids[grid][row][col] == '*': 
+					print Back.BLACK + best_grids[grid][row][col],
 			# Print a line in between the rows
-			print ''
+			print Back.BLACK + ''
 #---Fold function definition---#
 def fold( protein, max_num_H_bonds, current_element_idx, current_grid, current_row, current_col, direction, current_num_H_bonds ):
 
