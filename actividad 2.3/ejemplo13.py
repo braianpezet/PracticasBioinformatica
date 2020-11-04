@@ -33,7 +33,7 @@ def main():
 	#--Local variable initialization--#
 	current_element_idx = 0 # Index of the current element in protein
 	#protein = 'HPHPPHHPHPPHPHHPPHPH' # Protein we are folding
-	protein = "HHPP" # Protein we are folding
+	protein = "HHPPH" # Protein we are folding
 	current_grid = [] # Grid in which we are currently folding
 	current_num_H_bonds = max_num_H_bonds = 0 # Counters
 	print "Hello protein folders, beginning program" # Print a greeting
@@ -59,6 +59,7 @@ def main():
 
 	#-Print the best grids-#
 	# For each of the best grids
+	#print best_grids
 	for grid in range(len(best_grids)):
 		# Print the index of the grid
 		print "Grid ", grid, ":"
@@ -108,23 +109,24 @@ def fold( protein, max_num_H_bonds, current_element_idx, current_grid, current_r
 		new_grid[current_row][current_col] = protein[current_element_idx] + str(current_element_idx)
 	   	# Check for H-H bonds in the current fold
 		if protein[current_element_idx]=='H':
-
 			# Check to the left
-			if current_col > 0 and new_grid[current_row][current_col-1]=='H':
+			if current_col > 0 and new_grid[current_row][current_col-1][0]=='H':
 				current_num_H_bonds +=1
 
 			# Check above
-			if current_row > 0 and new_grid[current_row-1][current_col]=='H':
+			if current_row > 0 and new_grid[current_row-1][current_col][0]=='H':
 				current_num_H_bonds +=1
 
 			# Check to the right
-			if current_col < len(new_grid[current_row]) - 1 and new_grid[current_row][current_col+1]=='H':
+			if current_col < len(new_grid[current_row]) - 1 and new_grid[current_row][current_col+1][0]=='H':
 				current_num_H_bonds +=1
 
 			# Check below
-			if current_row < len(new_grid) - 1 and new_grid[current_row+1][current_col]=='H':
+			if current_row < len(new_grid) - 1 and new_grid[current_row+1][current_col][0]=='H':
 				current_num_H_bonds +=1
 
+		#print current_num_H_bonds
+		#print max_num_H_bonds
 		# Move on to the next element index
 		current_element_idx +=1
 
