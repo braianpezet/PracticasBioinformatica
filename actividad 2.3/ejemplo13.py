@@ -33,7 +33,7 @@ def main():
 	#--Local variable initialization--#
 	current_element_idx = 0 # Index of the current element in protein
 	#protein = 'HPHPPHHPHPPHPHHPPHPH' # Protein we are folding
-	protein = "HHPPH" # Protein we are folding
+	protein = "HPHPPHH" # Protein we are folding
 	current_grid = [] # Grid in which we are currently folding
 	current_num_H_bonds = max_num_H_bonds = 0 # Counters
 	print "Hello protein folders, beginning program" # Print a greeting
@@ -72,12 +72,44 @@ def main():
 
 				# Print the character at the given row and
 				# column
+				entro = 0
 				if best_grids[grid][row][col][0] == 'H':
-					print Back.GREEN + best_grids[grid][row][col][1],
+							# Check to the left
+					if col > 0 and  best_grids[grid][row][col-1][0]=='H' and entro == 0:
+						if int(best_grids[grid][row][col-1][1]) == int(best_grids[grid][row][col][1]) + 1 or  int(best_grids[grid][row][col-1][1]) == int(best_grids[grid][row][col][1]) - 1:
+							pass
+						else:
+							print Back.GREEN + Fore.RED + best_grids[grid][row][col][1],
+							entro = 1
+
+					# Check above
+					if  best_grids[grid][row-1][col][0]=='H' and entro == 0:
+						if int(best_grids[grid][row-1][col][1]) == int(best_grids[grid][row][col][1]) + 1 or  int(best_grids[grid][row-1][col][1]) == int(best_grids[grid][row][col][1]) - 1:
+							pass
+						else:
+							print Back.GREEN + Fore.RED + best_grids[grid][row][col][1],
+							entro = 1
+					# Check to the right
+					if  best_grids[grid][row][col+1][0]=='H' and entro == 0:
+						if int(best_grids[grid][row][col+1][1]) == int(best_grids[grid][row][col][1]) + 1 or  int(best_grids[grid][row][col+1][1]) == int(best_grids[grid][row][col][1]) - 1:
+							pass
+						else:
+							print Back.GREEN + Fore.RED + best_grids[grid][row][col][1],
+							entro = 1
+					# Check below
+					if  best_grids[grid][row+1][col][0]=='H' and entro == 0:
+						if int(best_grids[grid][row+1][col][1]) == int(best_grids[grid][row][col][1]) + 1 or  int(best_grids[grid][row+1][col][1]) == int(best_grids[grid][row][col][1]) - 1:
+							pass
+						else:
+							print Back.GREEN + Fore.RED + best_grids[grid][row][col][1],
+							entro = 1
+					if entro == 0 :
+						print Fore.WHITE + Back.GREEN + best_grids[grid][row][col][1],
+
 				if best_grids[grid][row][col][0] == 'P':
-					print Back.BLUE + best_grids[grid][row][col][1],
+					print Fore.WHITE + Back.BLUE + best_grids[grid][row][col][1],
 				if best_grids[grid][row][col] == '*': 
-					print Back.BLACK + best_grids[grid][row][col],
+					print Fore.WHITE + Back.BLACK + best_grids[grid][row][col],
 				#print Back.BLACK + best_grids[grid][row][col],
 			# Print a line in between the rows
 			print Back.BLACK + ''
